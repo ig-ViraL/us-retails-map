@@ -1,5 +1,6 @@
 import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
 import type { ClusterFeature } from '../types/index';
+import { TIER2_MAX_ZOOM } from '../constants/zoomTiers';
 
 interface Props {
   clusters: ClusterFeature[];
@@ -25,7 +26,7 @@ export function ClusterMarkers({ clusters }: Props) {
 
         const handleClick = () => {
           if (isCluster && map) {
-            map.setZoom((map.getZoom() ?? 6) + 2);
+            map.setZoom(TIER2_MAX_ZOOM + 1);
             map.panTo({ lat, lng });
           }
         };

@@ -1,5 +1,6 @@
 import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
 import type { StateCount } from '../types/index';
+import { TIER1_MAX_ZOOM } from '../constants/zoomTiers';
 
 interface Props {
   stateCounts: StateCount[];
@@ -21,7 +22,7 @@ export function StateMarkers({ stateCounts }: Props) {
           onClick={() => {
             if (map) {
               map.panTo({ lat: s.lat, lng: s.lng });
-              map.setZoom(6);
+              map.setZoom(TIER1_MAX_ZOOM + 1);
             }
           }}
         >
