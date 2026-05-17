@@ -5,7 +5,7 @@ import { fetchStateCounts, fetchClusters, fetchPoints } from '../services/api';
 import { getZoomTier } from '../constants/zoomTiers';
 import type { ViewportBounds, Filters } from '../types/index';
 
-function roundBounds(bounds: ViewportBounds, precision = 1): string {
+function roundBounds(bounds: ViewportBounds, precision: number): string {
   const r = (n: number) => Math.round(n * 10 ** precision) / 10 ** precision;
   return `${r(bounds.swLat)},${r(bounds.swLng)},${r(bounds.neLat)},${r(bounds.neLng)}`;
 }
@@ -30,7 +30,7 @@ export function useMapData(filters: Filters) {
   });
 
   const { data: clusters = [], isFetching: fetchingTier2, isError: errorTier2 } = useQuery({
-    queryKey: ['clusters', viewport ? roundBounds(viewport.bounds) : '', viewport?.zoom, filters],
+    queryKey: ['clusters', viewport ? roundBounds(viewport.bounds, 1) : '', viewport?.zoom, filters],
     queryFn: () => fetchClusters(viewport!.bounds, viewport!.zoom, filters),
     staleTime: 120_000,
     enabled: tier === 2 && viewport !== null,
@@ -38,7 +38,7 @@ export function useMapData(filters: Filters) {
   });
 
   const { data: points = [], isFetching: fetchingTier3, isError: errorTier3 } = useQuery({
-    queryKey: ['points', viewport ? roundBounds(viewport.bounds) : '', filters],
+    queryKey: ['points', viewport ? roundBounds(viewport.bounds, 2) : '', filters],
     queryFn: () => fetchPoints(viewport!.bounds, filters),
     staleTime: 120_000,
     enabled: tier === 3 && viewport !== null,
