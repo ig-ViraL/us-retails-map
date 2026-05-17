@@ -1,28 +1,10 @@
-import { InfoWindow } from '@vis.gl/react-google-maps';
-import { getBrandColor } from '../constants/brandColors';
-import type { StoreRecord } from '../types/index';
+import { InfoWindow } from "@vis.gl/react-google-maps";
+import { getBrandColor, toTitleCase, normalizeStatus, getStatusStyle } from "../utils";
+import type { StoreRecord } from "../types/index";
 
 interface Props {
   store: StoreRecord;
   onClose: () => void;
-}
-
-function toTitleCase(str: string): string {
-  return str.replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-function normalizeStatus(status: string): string {
-  return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
-}
-
-const STATUS_STYLES: Record<string, string> = {
-  active:  'bg-emerald-100 text-emerald-700 border border-emerald-200',
-  closed:  'bg-red-100 text-red-700 border border-red-200',
-  planned: 'bg-amber-100 text-amber-700 border border-amber-200',
-};
-
-function getStatusStyle(status: string): string {
-  return STATUS_STYLES[status.toLowerCase()] ?? 'bg-gray-100 text-gray-500 border border-gray-200';
 }
 
 export function StoreInfoWindow({ store, onClose }: Props) {
@@ -66,8 +48,12 @@ export function StoreInfoWindow({ store, onClose }: Props) {
         {/* Body */}
         <div className="bg-white px-4 py-3 flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">Status</span>
-            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${getStatusStyle(store.status)}`}>
+            <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">
+              Status
+            </span>
+            <span
+              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${getStatusStyle(store.status)}`}
+            >
               {status}
             </span>
           </div>

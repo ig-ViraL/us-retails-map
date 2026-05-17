@@ -1,25 +1,15 @@
 import { config } from '../config';
 import type { StateCount, ClusterFeature, StoreRecord, ViewportBounds, Filters } from '../types/index';
+import { boundsToParams, filterParams } from '../utils';
 
 const BASE = config.apiBaseUrl;
 
-function boundsToParams(bounds: ViewportBounds): URLSearchParams {
-  return new URLSearchParams({
-    swLat: String(bounds.swLat),
-    swLng: String(bounds.swLng),
-    neLat: String(bounds.neLat),
-    neLng: String(bounds.neLng),
-  });
-}
-
-function filterParams(filters: Filters): Record<string, string> {
-  const p: Record<string, string> = {};
-  if (filters.state) p.state = filters.state;
-  if (filters.brand) p.brand = filters.brand;
-  if (filters.status) p.status = filters.status;
-  return p;
-}
-
+/**
+ * Fetches the count of stores for each state, filtered by the provided criteria.
+ * 
+ * @param filters Optional filters to refine the results. Can include state, brand, or status.
+ * @returns Promise resolving to an array of state count objects.
+ */
 export async function fetchStateCounts(filters?: Filters): Promise<StateCount[]> {
   const params = new URLSearchParams();
   if (filters?.state) params.set('state', filters.state);
@@ -31,6 +21,14 @@ export async function fetchStateCounts(filters?: Filters): Promise<StateCount[]>
   return res.json();
 }
 
+/**
+ * Fetches store clusters based on the current map viewport and active filters.
+ *
+ * @param bounds The bounding box of the current map viewport.
+ * @param zoom The current map zoom level.
+ * @param filters An object containing filter settings such as state, brand, or status.
+ * @returns Promise resolving to an array of store cluster features matching the criteria.
+ */
 export async function fetchClusters(
   bounds: ViewportBounds,
   zoom: number,
@@ -44,6 +42,14 @@ export async function fetchClusters(
   return res.json();
 }
 
+/**
+ * Fetches individual store records (not clustered) within the given map viewport bounds,
+ * potentially filtered by state, brand, or status.
+ *
+ * @param bounds  The bounding box (viewport) of the map to restrict the result set.
+ * @param filters An object containing filter criteria for state, brand, and/or status.
+ * @returns       Promise resolving to an array of StoreRecord objects matching the filters.
+ */
 export async function fetchPoints(
   bounds: ViewportBounds,
   filters: Filters

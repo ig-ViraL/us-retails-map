@@ -9,7 +9,9 @@
       "Bash(npm init *)",
       "Bash(npm create *)",
       "Bash(git check-ignore *)",
-      "Bash(npx tsx *)"
+      "Bash(npx tsx *)",
+      "PowerShell(Copy-Item *)",
+      "PowerShell(Rename-Item *)"
     ]
   }
 }

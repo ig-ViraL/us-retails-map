@@ -1,32 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { getStateCounts, getFilteredStateCounts } from '../services/stateService';
-import { getClusters, clusterStores } from '../services/clusterService';
+import { getStateCounts, getFilteredStateCounts } from '../services/state-service';
+import { getClusters, clusterStores } from '../services/cluster-service';
 import { getPointsInBounds, getFilterOptions, getFilteredPoints } from '../services/db';
 import { ValidationError } from '../errors';
-import type { ViewportBounds, Filters } from '../types/index';
+import { parseBounds, parseFilters } from '../utils/params';
 
 export const storesRouter = Router();
-
-function parseBounds(q: Record<string, string>): ViewportBounds | null {
-  const { swLat, swLng, neLat, neLng } = q;
-  if (!swLat || !swLng || !neLat || !neLng) return null;
-  const parsed = {
-    swLat: parseFloat(swLat),
-    swLng: parseFloat(swLng),
-    neLat: parseFloat(neLat),
-    neLng: parseFloat(neLng),
-  };
-  if (Object.values(parsed).some(isNaN)) return null;
-  return parsed;
-}
-
-function parseFilters(q: Record<string, string>): Filters {
-  return {
-    state: q.state || undefined,
-    brand: q.brand || undefined,
-    status: q.status || undefined,
-  };
-}
 
 storesRouter.get('/states', (req: Request, res: Response, next: NextFunction) => {
   try {

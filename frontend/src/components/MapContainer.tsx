@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Map } from '@vis.gl/react-google-maps';
 import type { MapCameraChangedEvent } from '@vis.gl/react-google-maps';
-import { StateMarkers } from './StateMarkers';
-import { ClusterMarkers } from './ClusterMarkers';
-import { StoreMarkers } from './StoreMarkers';
+import { StateMarker } from './StateMarker';
+import { ClusterMarker } from './ClusterMarker';
+import { StoreMarker } from './StoreMarker';
 import { useMapData } from '../hooks/useMapData';
 import type { Filters, StoreRecord } from '../types/index';
 
@@ -52,10 +52,10 @@ export function MapContainer({ filters }: Props) {
         onClick={() => setSelectedStore(null)}
         style={{ width: '100%', height: '100%' }}
       >
-        {tier === 1 && <StateMarkers stateCounts={stateCounts} />}
-        {tier === 2 && <ClusterMarkers clusters={clusters} />}
+        {tier === 1 && <StateMarker stateCounts={stateCounts} />}
+        {tier === 2 && <ClusterMarker clusters={clusters} />}
         {tier === 3 && (
-          <StoreMarkers
+          <StoreMarker
             points={points}
             selectedStore={selectedStore}
             onSelect={setSelectedStore}

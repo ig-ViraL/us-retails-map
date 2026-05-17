@@ -1,6 +1,6 @@
 import { AdvancedMarker } from '@vis.gl/react-google-maps';
 import { StoreInfoWindow } from './StoreInfoWindow';
-import { getBrandColor } from '../constants/brandColors';
+import { getBrandColor } from '../utils';
 import type { StoreRecord } from '../types/index';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   onSelect: (store: StoreRecord | null) => void;
 }
 
-export function StoreMarkers({ points, selectedStore, onSelect }: Props) {
+export function StoreMarker({ points, selectedStore, onSelect }: Props) {
   return (
     <>
       {points.map((store) => (

@@ -19,3 +19,7 @@ type Env = keyof typeof envConfig;
 const env = (import.meta.env.MODE ?? 'development') as Env;
 
 export const config: FrontendConfig = envConfig[env] ?? envConfig.development;
+
+export const TIER1_MAX_ZOOM = 7;
+export const TIER2_MAX_ZOOM = 11;
+export const TIER3_MIN_ZOOM = 12;

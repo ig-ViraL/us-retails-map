@@ -2,14 +2,8 @@ import { useState, useCallback } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useDebounce } from './useDebounce';
 import { fetchStateCounts, fetchClusters, fetchPoints } from '../services/api';
-import { getZoomTier } from '../constants/zoomTiers';
+import { getZoomTier, roundBounds } from '../utils';
 import type { ViewportBounds, Filters } from '../types/index';
-
-// step is in degrees: 0.1° ≈ 11km, 0.02° ≈ 2.2km, 0.01° ≈ 1.1km
-function roundBounds(bounds: ViewportBounds, step: number): string {
-  const r = (n: number) => Math.round(n / step) * step;
-  return `${r(bounds.swLat)},${r(bounds.swLng)},${r(bounds.neLat)},${r(bounds.neLng)}`;
-}
 
 interface Viewport {
   bounds: ViewportBounds;

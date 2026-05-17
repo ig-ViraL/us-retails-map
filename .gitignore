@@ -1,4 +1,3 @@
-.worktrees/
 backend/data/
 backend/.env
 frontend/.env

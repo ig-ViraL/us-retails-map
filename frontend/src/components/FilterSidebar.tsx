@@ -1,19 +1,12 @@
 import { useState } from 'react';
 import type { Filters } from '../types/index';
+import { hasActiveFilters, toTitleCase } from '../utils';
 
 interface Props {
   filters: Filters;
   options: { states: string[]; brands: string[]; statuses: string[] };
   onUpdate: (key: keyof Filters, value: string) => void;
   onClear: () => void;
-}
-
-function hasActiveFilters(filters: Filters): boolean {
-  return !!(filters.state || filters.brand || filters.status);
-}
-
-function toTitleCase(str: string): string {
-  return str.replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export function FilterSidebar({ filters, options, onUpdate, onClear }: Props) {

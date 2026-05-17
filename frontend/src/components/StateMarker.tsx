@@ -1,17 +1,13 @@
 import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
 import type { StateCount } from '../types/index';
-import { TIER1_MAX_ZOOM } from '../constants/zoomTiers';
+import { TIER1_MAX_ZOOM } from '../config';
+import { formatCount } from '../utils';
 
 interface Props {
   stateCounts: StateCount[];
 }
 
-function formatCount(count: number): string {
-  if (count >= 1000) return `${(count / 1000).toFixed(1)}k`;
-  return String(count);
-}
-
-export function StateMarkers({ stateCounts }: Props) {
+export function StateMarker({ stateCounts }: Props) {
   const map = useMap();
   return (
     <>

@@ -1,10 +1,15 @@
-/// <reference types="geojson" />
-
 import Supercluster from 'supercluster';
 import type { StoreRecord, ViewportBounds, Filters, ClusterFeature } from '../types/index';
 
 let index: Supercluster | null = null;
 
+/**
+ * Builds the Supercluster index using provided store records.
+ * Transforms store records into GeoJSON features and loads them into the index
+ * for fast clustering and map rendering.
+ * To be called at startup or when the underlying store data changes.
+ * @param stores Array of StoreRecord objects to index in Supercluster
+ */
 export function buildClusterIndex(stores: StoreRecord[]): void {
   index = new Supercluster({
     radius: 60,
@@ -28,6 +33,19 @@ export function buildClusterIndex(stores: StoreRecord[]): void {
   console.log(`Supercluster index built: ${features.length} points`);
 }
 
+/**
+ * Retrieves clustered store data or individual points for rendering on the map,
+ * using the prebuilt Supercluster index.
+ * 
+ * - Clusters points within the provided viewport bounds at the given zoom level.
+ * - Applies additional post-filtering to individual (non-cluster) points based on the given filters.
+ * - Returns GeoJSON features that include either cluster properties or single store properties.
+ *
+ * @param bounds  Viewport bounding box (southwest and northeast corners as lat/lng) to cluster within.
+ * @param zoom    Map zoom level to use when generating clusters (integer).
+ * @param filters Optional filters (state, brand, status) to restrict points (affect only non-clusters).
+ * @returns       Array of ClusterFeature objects representing clusters or individual stores for the current view.
+ */
 export function getClusters(
   bounds: ViewportBounds,
   zoom: number,
@@ -55,6 +73,19 @@ export function getClusters(
   });
 }
 
+/**
+ * Clusters a set of store records within the provided viewport bounds at a specific zoom level.
+ *
+ * - Creates a new in-memory Supercluster index from the supplied `stores`.
+ * - Converts each store into a GeoJSON point feature with relevant store properties.
+ * - Loads features into Supercluster and performs the clustering based on the current map viewport
+ *   and zoom.
+ *
+ * @param stores Array of StoreRecord objects to cluster.
+ * @param bounds ViewportBounds specifying the southwest and northeast corners of the bounding box.
+ * @param zoom   Map zoom level (number, integer, as used by Supercluster).
+ * @returns      Array of ClusterFeature GeoJSON features representing clusters and individual stores within the bounds.
+ */
 export function clusterStores(
   stores: StoreRecord[],
   bounds: ViewportBounds,

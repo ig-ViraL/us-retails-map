@@ -1,24 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchFilterOptions } from '../services/api';
 import type { Filters } from '../types/index';
-
-function readFiltersFromURL(): Filters {
-  const p = new URLSearchParams(window.location.search);
-  return {
-    state: p.get('state') ?? '',
-    brand: p.get('brand') ?? '',
-    status: p.get('status') ?? '',
-  };
-}
-
-function writeFiltersToURL(filters: Filters): void {
-  const p = new URLSearchParams();
-  if (filters.state) p.set('state', filters.state);
-  if (filters.brand) p.set('brand', filters.brand);
-  if (filters.status) p.set('status', filters.status);
-  const search = p.toString();
-  history.replaceState(null, '', search ? `?${search}` : window.location.pathname);
-}
+import { readFiltersFromURL, writeFiltersToURL } from '../utils';
 
 export function useFilters() {
   const [filters, setFilters] = useState<Filters>(readFiltersFromURL);

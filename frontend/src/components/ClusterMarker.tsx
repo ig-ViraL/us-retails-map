@@ -1,19 +1,13 @@
 import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
 import type { ClusterFeature } from '../types/index';
-import { TIER2_MAX_ZOOM } from '../constants/zoomTiers';
+import { TIER2_MAX_ZOOM } from '../config';
+import { clusterSize } from '../utils';
 
 interface Props {
   clusters: ClusterFeature[];
 }
 
-function clusterSize(count: number): number {
-  if (count < 10) return 36;
-  if (count < 100) return 46;
-  if (count < 1000) return 56;
-  return 66;
-}
-
-export function ClusterMarkers({ clusters }: Props) {
+export function ClusterMarker({ clusters }: Props) {
   const map = useMap();
 
   return (

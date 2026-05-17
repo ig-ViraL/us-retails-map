@@ -9,17 +9,17 @@ interface BackendConfig {
 
 const envConfig = {
   development: {
-    port: parseInt(process.env.PORT ?? '3001', 10),
+    port: parseInt(process.env.PORT ?? '3000', 10),
     dbPath: process.env.DB_PATH ?? './data/stores.db',
     csvPath: process.env.CSV_PATH ?? '../my_pois.csv',
   },
   production: {
-    port: parseInt(process.env.PORT ?? '3001', 10),
+    port: parseInt(process.env.PORT ?? '443', 10),
     dbPath: process.env.DB_PATH ?? './data/stores.db',
     csvPath: process.env.CSV_PATH ?? '../my_pois.csv',
   },
   test: {
-    port: 3002,
+    port: 3000,
     dbPath: ':memory:',
     csvPath: '../my_pois.csv',
   },
