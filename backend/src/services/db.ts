@@ -46,13 +46,13 @@ export function getAllPoints(): StoreRecord[] {
 let filterOptionsCache: { states: string[]; brands: string[]; statuses: string[] } | null = null;
 
 export function buildFilterOptionsCache(): void {
-  const states = (db.prepare('SELECT DISTINCT state FROM stores ORDER BY state').all() as { state: string }[]).map(
+  const states = (db.prepare("SELECT DISTINCT state FROM stores WHERE state != '' ORDER BY state").all() as { state: string }[]).map(
     (r) => r.state
   );
-  const brands = (db.prepare('SELECT DISTINCT brand_name FROM stores ORDER BY brand_name').all() as { brand_name: string }[]).map(
+  const brands = (db.prepare("SELECT DISTINCT brand_name FROM stores WHERE brand_name != '' ORDER BY brand_name").all() as { brand_name: string }[]).map(
     (r) => r.brand_name
   );
-  const statuses = (db.prepare('SELECT DISTINCT status FROM stores ORDER BY status').all() as { status: string }[]).map(
+  const statuses = (db.prepare("SELECT DISTINCT status FROM stores WHERE status != '' ORDER BY status").all() as { status: string }[]).map(
     (r) => r.status
   );
   filterOptionsCache = { states, brands, statuses };
