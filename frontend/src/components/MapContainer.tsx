@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Map, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import { StateMarkers } from './StateMarkers';
 import { ClusterMarkers } from './ClusterMarkers';
@@ -12,14 +13,14 @@ interface Props {
 export function MapContainer({ filters }: Props) {
   const { tier, stateCounts, clusters, points, loading, error, onViewportChange } = useMapData(filters);
 
-  const handleCameraChange = (e: MapCameraChangedEvent) => {
+  const handleCameraChange = useCallback((e: MapCameraChangedEvent) => {
     const { bounds, zoom } = e.detail;
     if (!bounds || zoom === undefined) return;
     onViewportChange(
       { swLat: bounds.south, swLng: bounds.west, neLat: bounds.north, neLng: bounds.east },
       zoom
     );
-  };
+  }, [onViewportChange]);
 
   return (
     <div className="relative w-full h-full">

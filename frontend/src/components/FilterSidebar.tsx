@@ -21,7 +21,7 @@ export function FilterSidebar({ filters, options, onUpdate, onClear }: Props) {
         >
           <option value="">All</option>
           {options.states.map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <option key={s} value={s}>{s.replace(/\b\w/g, (c) => c.toUpperCase())}</option>
           ))}
         </select>
       </label>

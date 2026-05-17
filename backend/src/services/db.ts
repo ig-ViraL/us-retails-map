@@ -43,7 +43,9 @@ export function getAllPoints(): StoreRecord[] {
     .all() as StoreRecord[];
 }
 
-export function getFilterOptions(): { states: string[]; brands: string[]; statuses: string[] } {
+let filterOptionsCache: { states: string[]; brands: string[]; statuses: string[] } | null = null;
+
+export function buildFilterOptionsCache(): void {
   const states = (db.prepare('SELECT DISTINCT state FROM stores ORDER BY state').all() as { state: string }[]).map(
     (r) => r.state
   );
@@ -53,5 +55,11 @@ export function getFilterOptions(): { states: string[]; brands: string[]; status
   const statuses = (db.prepare('SELECT DISTINCT status FROM stores ORDER BY status').all() as { status: string }[]).map(
     (r) => r.status
   );
-  return { states, brands, statuses };
+  filterOptionsCache = { states, brands, statuses };
+  console.log(`Filter options cached: ${states.length} states, ${brands.length} brands, ${statuses.length} statuses`);
+}
+
+export function getFilterOptions(): { states: string[]; brands: string[]; statuses: string[] } {
+  if (!filterOptionsCache) throw new Error('Filter options cache not built');
+  return filterOptionsCache;
 }

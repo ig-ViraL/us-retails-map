@@ -4,7 +4,7 @@ import { config } from './config';
 import { storesRouter } from './routes/stores';
 import { buildClusterIndex } from './services/clusterService';
 import { buildStateCountsCache } from './services/stateService';
-import { getAllPoints } from './services/db';
+import { getAllPoints, buildFilterOptionsCache } from './services/db';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
@@ -21,6 +21,7 @@ app.use(errorHandler);
 async function bootstrap() {
   console.log('Loading data...');
   const allPoints = getAllPoints();
+  buildFilterOptionsCache();
   buildStateCountsCache();
   buildClusterIndex(allPoints);
   console.log('Data ready.');

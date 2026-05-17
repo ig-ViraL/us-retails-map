@@ -10,12 +10,14 @@ export const storesRouter = Router();
 function parseBounds(q: Record<string, string>): ViewportBounds | null {
   const { swLat, swLng, neLat, neLng } = q;
   if (!swLat || !swLng || !neLat || !neLng) return null;
-  return {
+  const parsed = {
     swLat: parseFloat(swLat),
     swLng: parseFloat(swLng),
     neLat: parseFloat(neLat),
     neLng: parseFloat(neLng),
   };
+  if (Object.values(parsed).some(isNaN)) return null;
+  return parsed;
 }
 
 function parseFilters(q: Record<string, string>): Filters {
