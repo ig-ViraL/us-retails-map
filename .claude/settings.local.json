@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(\\(Get-Content \"D:\\\\Work\\\\interview-practicals\\\\ignosis\\\\my_pois.csv\" | Measure-Object -Line\\).Lines)",
+      "Skill(superpowers:using-git-worktrees)",
+      "Bash(git init *)",
+      "Bash(git commit *)"
+    ]
+  }
+}
