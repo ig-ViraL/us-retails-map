@@ -50,7 +50,7 @@ export function useMapData(filters: Filters) {
     setViewport({ bounds, zoom });
   }, []);
 
-  const debouncedUpdate = useDebounce(updateViewport, 700);
+  const debouncedUpdate = useDebounce(updateViewport, 500);
 
   const loading = loadingTier1 || fetchingTier2 || fetchingTier3;
   const error = (errorTier1 || errorTier2 || errorTier3) ? 'Failed to load map data' : null;

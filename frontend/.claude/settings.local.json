@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const m = require\\('@vis.gl/react-google-maps'\\); console.log\\(Object.keys\\(m\\).filter\\(k => k.toLowerCase\\(\\).includes\\('camera'\\) || k.toLowerCase\\(\\).includes\\('event'\\) || k.toLowerCase\\(\\).includes\\('map'\\)\\)\\)\")",
+      "Bash(node -e \"const m = require\\('@vis.gl/react-google-maps'\\); const keys = Object.keys\\(m\\); console.log\\(keys.join\\('\\\\n'\\)\\)\")"
+    ]
+  }
+}

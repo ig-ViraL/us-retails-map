@@ -41,7 +41,7 @@ export function StoreInfoWindow({ store, onClose }: Props) {
       <div className="w-52 rounded-xl overflow-hidden shadow-lg font-sans">
         {/* Coloured header band */}
         <div
-          className="px-4 pt-4 pb-3 flex items-center gap-3"
+          className="px-3 py-3 flex items-center gap-3"
           style={{ backgroundColor: color }}
         >
           <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 ring-2 ring-white/40">
