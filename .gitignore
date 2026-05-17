@@ -1,1 +1,6 @@
-.worktrees/
+backend/data/
+backend/.env
+frontend/.env
+node_modules/
+dist/
+*.db

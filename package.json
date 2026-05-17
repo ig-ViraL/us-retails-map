@@ -1,0 +1,31 @@
+{
+  "name": "retail-locator-usa",
+  "version": "1.0.0",
+  "description": "Interactive US retail store locator web app. Requires Node.js 18+ and the my_pois.csv dataset in the repo root.",
+  "homepage": "https://github.com/ig-ViraL/us-retails-map#readme",
+  "bugs": {
+    "url": "https://github.com/ig-ViraL/us-retails-map/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ig-ViraL/us-retails-map.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\" --names fe,be --prefix-colors cyan,yellow",
+    "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend",
+    "import-csv": "npm run import-csv --prefix backend",
+    "lint": "npm run lint --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
