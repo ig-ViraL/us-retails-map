@@ -5,9 +5,6 @@ import type { StoreRecord, ViewportBounds, Filters } from '../types/index';
 
 export const db = new Database(path.resolve(config.dbPath), { readonly: true });
 
-// WAL mode for better concurrent read performance
-db.pragma('journal_mode = WAL');
-
 export function getPointsInBounds(
   bounds: ViewportBounds,
   filters: Filters,
