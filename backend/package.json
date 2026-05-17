@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node src/index.ts",
-    "import": "ts-node src/scripts/importCsv.ts",
+    "dev": "tsx src/index.ts",
+    "import": "tsx src/scripts/importCsv.ts",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -29,6 +29,7 @@
     "@types/supercluster": "^7.1.3",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
+    "tsx": "^4.22.1",
     "typescript": "^6.0.3"
   }
 }

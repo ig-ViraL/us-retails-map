@@ -18,20 +18,32 @@ app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
 app.use(errorHandler);
 
-async function bootstrap() {
-  console.log('Loading data...');
-  const allPoints = getAllPoints();
-  buildFilterOptionsCache();
-  buildStateCountsCache();
-  buildClusterIndex(allPoints);
-  console.log('Data ready.');
+console.log('Loading data...');
+const allPoints = getAllPoints();
+buildFilterOptionsCache();
+buildStateCountsCache();
+buildClusterIndex(allPoints);
+console.log('Data ready.');
 
-  app.listen(port, () => {
-    console.log(`Backend running on http://localhost:${port}`);
-  });
-}
+const server = app.listen(port, () => {
+  console.log(`Backend running on http://localhost:${port}`);
+});
 
-bootstrap().catch((err) => {
-  console.error('Startup failed:', err);
+server.on('error', (err: NodeJS.ErrnoException) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${port} is already in use`);
+  } else {
+    console.error('Server error:', err);
+  }
+  process.exit(1);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled rejection:', reason);
   process.exit(1);
 });

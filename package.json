@@ -1,0 +1,25 @@
+{
+  "name": "ignosis",
+  "version": "1.0.0",
+  "description": "- Node.js 18+ - The `my_pois.csv` dataset in the repo root",
+  "homepage": "https://github.com/ig-ViraL/us-retails-map#readme",
+  "bugs": {
+    "url": "https://github.com/ig-ViraL/us-retails-map/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ig-ViraL/us-retails-map.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd frontend && npm run dev && cd.. && cd backend && npm run dev",
+    "start": ""
+  }
+}

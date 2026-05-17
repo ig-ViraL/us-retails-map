@@ -8,7 +8,8 @@
       "Skill(superpowers:subagent-driven-development)",
       "Bash(npm init *)",
       "Bash(npm create *)",
-      "Bash(git check-ignore *)"
+      "Bash(git check-ignore *)",
+      "Bash(npx tsx *)"
     ]
   }
 }

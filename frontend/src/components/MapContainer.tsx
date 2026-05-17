@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import { Map, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
+import { Map } from '@vis.gl/react-google-maps';
+import type { MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import { StateMarkers } from './StateMarkers';
 import { ClusterMarkers } from './ClusterMarkers';
 import { StoreMarkers } from './StoreMarkers';
