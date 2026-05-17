@@ -1,11 +1,11 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Map } from '@vis.gl/react-google-maps';
 import type { MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import { StateMarkers } from './StateMarkers';
 import { ClusterMarkers } from './ClusterMarkers';
 import { StoreMarkers } from './StoreMarkers';
 import { useMapData } from '../hooks/useMapData';
-import type { Filters } from '../types/index';
+import type { Filters, StoreRecord } from '../types/index';
 
 interface Props {
   filters: Filters;
@@ -13,6 +13,13 @@ interface Props {
 
 export function MapContainer({ filters }: Props) {
   const { tier, stateCounts, clusters, points, loading, error, onViewportChange } = useMapData(filters);
+  const [selectedStore, setSelectedStore] = useState<StoreRecord | null>(null);
+
+  // Close popup when filters change
+  useEffect(() => { setSelectedStore(null); }, [filters]);
+
+  // Close popup when tier changes (zoom in/out)
+  useEffect(() => { setSelectedStore(null); }, [tier]);
 
   const handleCameraChange = useCallback((e: MapCameraChangedEvent) => {
     const { bounds, zoom } = e.detail;
@@ -42,11 +49,18 @@ export function MapContainer({ filters }: Props) {
         defaultZoom={4}
         mapId="retail-map"
         onCameraChanged={handleCameraChange}
+        onClick={() => setSelectedStore(null)}
         style={{ width: '100%', height: '100%' }}
       >
         {tier === 1 && <StateMarkers stateCounts={stateCounts} />}
         {tier === 2 && <ClusterMarkers clusters={clusters} />}
-        {tier === 3 && <StoreMarkers points={points} />}
+        {tier === 3 && (
+          <StoreMarkers
+            points={points}
+            selectedStore={selectedStore}
+            onSelect={setSelectedStore}
+          />
+        )}
       </Map>
     </div>
   );
