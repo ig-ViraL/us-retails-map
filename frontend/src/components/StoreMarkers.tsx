@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AdvancedMarker } from '@vis.gl/react-google-maps';
 import { StoreInfoWindow } from './StoreInfoWindow';
+import { getBrandColor } from '../constants/brandColors';
 import type { StoreRecord } from '../types/index';
 
 interface Props {
@@ -18,8 +19,11 @@ export function StoreMarkers({ points }: Props) {
           position={{ lat: store.latitude, lng: store.longitude }}
           onClick={() => setSelected(store)}
         >
-          <div className="bg-white border-2 border-blue-600 rounded px-1.5 py-0.5 text-[10px] font-bold text-blue-600 shadow cursor-pointer select-none hover:bg-blue-50 transition-colors">
-            {store.brand_name}
+          <div
+            className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-lg cursor-pointer select-none hover:scale-110 transition-transform"
+            style={{ backgroundColor: getBrandColor(store.brand_name) }}
+          >
+            {store.brand_name.slice(0, 2).toUpperCase()}
           </div>
         </AdvancedMarker>
       ))}
