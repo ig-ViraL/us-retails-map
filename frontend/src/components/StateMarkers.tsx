@@ -1,4 +1,4 @@
-import { AdvancedMarker } from '@vis.gl/react-google-maps';
+import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
 import type { StateCount } from '../types/index';
 
 interface Props {
@@ -11,11 +11,21 @@ function formatCount(count: number): string {
 }
 
 export function StateMarkers({ stateCounts }: Props) {
+  const map = useMap();
   return (
     <>
       {stateCounts.map((s) => (
-        <AdvancedMarker key={s.state} position={{ lat: s.lat, lng: s.lng }}>
-          <div className="w-14 h-14 rounded-full bg-blue-600 text-white flex flex-col items-center justify-center text-[11px] font-bold shadow-md cursor-default select-none">
+        <AdvancedMarker
+          key={s.state}
+          position={{ lat: s.lat, lng: s.lng }}
+          onClick={() => {
+            if (map) {
+              map.panTo({ lat: s.lat, lng: s.lng });
+              map.setZoom(6);
+            }
+          }}
+        >
+          <div className="w-14 h-14 rounded-full bg-blue-600 text-white flex flex-col items-center justify-center text-[11px] font-bold shadow-md cursor-pointer select-none">
             <span>{s.state.slice(0, 2).toUpperCase()}</span>
             <span>{formatCount(s.count)}</span>
           </div>
