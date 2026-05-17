@@ -54,3 +54,34 @@ export function getClusters(
     return true;
   });
 }
+
+export function clusterStores(
+  stores: StoreRecord[],
+  bounds: ViewportBounds,
+  zoom: number
+): ClusterFeature[] {
+  const tempIndex = new Supercluster({ radius: 60, maxZoom: 16, minPoints: 2 });
+
+  const features = stores.map((s) => ({
+    type: 'Feature' as const,
+    geometry: { type: 'Point' as const, coordinates: [s.longitude, s.latitude] as [number, number] },
+    properties: {
+      id: s.id,
+      brand_name: s.brand_name,
+      status: s.status,
+      state: s.state,
+      city: s.city,
+    },
+  }));
+
+  tempIndex.load(features as any);
+
+  const bbox: [number, number, number, number] = [
+    bounds.swLng,
+    bounds.swLat,
+    bounds.neLng,
+    bounds.neLat,
+  ];
+
+  return tempIndex.getClusters(bbox, Math.floor(zoom)) as ClusterFeature[];
+}

@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { getStateCounts } from '../services/stateService';
-import { getClusters } from '../services/clusterService';
-import { getPointsInBounds, getFilterOptions } from '../services/db';
+import { getStateCounts, getFilteredStateCounts } from '../services/stateService';
+import { getClusters, clusterStores } from '../services/clusterService';
+import { getPointsInBounds, getFilterOptions, getFilteredPoints } from '../services/db';
 import { ValidationError } from '../errors';
 import type { ViewportBounds, Filters } from '../types/index';
 
@@ -28,9 +28,11 @@ function parseFilters(q: Record<string, string>): Filters {
   };
 }
 
-storesRouter.get('/states', (_req: Request, res: Response, next: NextFunction) => {
+storesRouter.get('/states', (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json(getStateCounts());
+    const filters = parseFilters(req.query as Record<string, string>);
+    const hasFilters = !!(filters.state || filters.brand || filters.status);
+    res.json(hasFilters ? getFilteredStateCounts(filters) : getStateCounts());
   } catch (err) {
     next(err);
   }
@@ -47,7 +49,13 @@ storesRouter.get('/clusters', (req: Request, res: Response, next: NextFunction) 
 
   try {
     const filters = parseFilters(req.query as Record<string, string>);
-    res.json(getClusters(bounds, zoom, filters));
+    const hasFilters = !!(filters.state || filters.brand || filters.status);
+    if (hasFilters) {
+      const filteredStores = getFilteredPoints(filters);
+      res.json(clusterStores(filteredStores, bounds, zoom));
+    } else {
+      res.json(getClusters(bounds, zoom, filters));
+    }
   } catch (err) {
     next(err);
   }
