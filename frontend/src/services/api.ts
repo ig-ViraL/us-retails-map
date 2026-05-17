@@ -20,8 +20,13 @@ function filterParams(filters: Filters): Record<string, string> {
   return p;
 }
 
-export async function fetchStateCounts(): Promise<StateCount[]> {
-  const res = await fetch(`${BASE}/api/stores/states`);
+export async function fetchStateCounts(filters?: Filters): Promise<StateCount[]> {
+  const params = new URLSearchParams();
+  if (filters?.state) params.set('state', filters.state);
+  if (filters?.brand) params.set('brand', filters.brand);
+  if (filters?.status) params.set('status', filters.status);
+  const query = params.toString();
+  const res = await fetch(`${BASE}/api/stores/states${query ? `?${query}` : ''}`);
   if (!res.ok) throw new Error('Failed to fetch state counts');
   return res.json();
 }

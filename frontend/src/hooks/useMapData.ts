@@ -20,10 +20,12 @@ export function useMapData(filters: Filters) {
 
   const tier = viewport ? getZoomTier(viewport.zoom) : 1;
 
+  const hasActiveFilters = !!(filters.state || filters.brand || filters.status);
+
   const { data: stateCounts = [], isLoading: loadingTier1, isError: errorTier1 } = useQuery({
-    queryKey: ['states'],
-    queryFn: fetchStateCounts,
-    staleTime: Infinity, // pre-aggregated — never changes
+    queryKey: ['states', filters],
+    queryFn: () => fetchStateCounts(filters),
+    staleTime: hasActiveFilters ? 30_000 : Infinity,
     enabled: tier === 1,
   });
 
