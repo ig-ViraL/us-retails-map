@@ -39,7 +39,7 @@ export function useMapData(filters: Filters) {
   });
 
   const { data: points = [], isFetching: fetchingTier3, isError: errorTier3 } = useQuery({
-    queryKey: ['points', viewport ? roundBounds(viewport.bounds, 0.02) : '', filters],
+    queryKey: ['points', viewport ? roundBounds(viewport.bounds, 0.005) : '', filters],
     queryFn: () => fetchPoints(viewport!.bounds, filters),
     staleTime: 120_000,
     enabled: tier === 3 && viewport !== null,
